@@ -1,5 +1,5 @@
 {
-  "baseUrl" : "https://joseph-paris.herokuapp.com",
+  "baseUrl" : "https://habili-paris.herokuapp.com",
   "db_conn" : {
     "host" : "eu-cdbr-west-02.cleardb.net",
     "user" : "b4c0d59a1ccdbd",
