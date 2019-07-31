@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="mt-5 pl-4">
+    <h1>Liste des entreprises enregistrées</h1>
+  </div>
+
+  <div class="d-flex justify-content-end">
+  	<div class="p-2 bd-highlight mr-5 mt-3 mx-auto">
+
+  		<a class="ajouter text-gris69 lien-gris mr-3" href="/entreprise-ajouter"><img src="https://img.icons8.com/color/48/000000/plus.png">Ajouter une entreprise</a>
+  	</div>
+  </div>
+
+  <div class="row mt-3">
+      <% if(typeof result != 'undefined'){
+       result.forEach(function(element){%>
+      <ul class="col-sm-12 list-group">
+          <li class="list-group-item my-2">
+              <div class="row">
+                <div class="col-lg-9 col-sm-10">
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-12 mt-2">
+                      <p><span class="font-weight-bold">Entreprise : </span><%= element.Nom_entreprise%></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                      <p><span class="font-weight-bold">Adresse : </span><%= element.Adresse%></p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-sm-12">
+                      <p><span class="font-weight-bold">Ville : </span><%= element.Ville%></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-sm-2">
+                  <div class="row">
+                    <div class="col-lg-4 col-sm-12 mt-4">
+                      <a href="/entreprise-modifier/<%= element.ID_entreprise%>" id="modifier-entreprise-<%= element.ID_entreprise%>"><img src="https://img.icons8.com/color/48/000000/edit.png"></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </li>
+      </ul>
+    <%});}%>
+  </div>
+</div>

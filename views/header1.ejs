@@ -1,0 +1,18 @@
+<header class="navbar navbar-expand-lg navbar-light bg-bleufayat">
+  <div class="navbar-collapse collapse w-100 order-1 order-md-0">
+  </div>
+  <div class="mx-auto">
+    <a class="brand-centered" href="/">
+      <img src="/img/logo/HABILI.jpg" alt="logo fayat" class="logo">
+    </a>
+  </div>
+  <div class="navbar w-100">
+      <ul class="navbar-nav ml_custom">
+        <% if(typeof accessToken != 'undefined'){%>
+          <li class="nav-item float-right">
+              <a class="btn rounded-pill text-black bg-jaunefayat border-jaunefayat float-right" href="/logout">Déconnexion</a>
+          </li>
+        <%}%>
+      </ul>
+  </div>
+</header>

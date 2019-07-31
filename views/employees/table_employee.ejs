@@ -1,0 +1,122 @@
+<div class="container">
+  <div class="col-12 mt-5">
+    <h1>Liste des employés</h1>
+    <small>Cette page regroupe les employés de l’entreprise, on y retrouve toutes les informations comprenant le nombre d’habilitations qui arrivent à expirations dans les 120 jours,
+      la date de la dernière visite médicale, le département, le poste, les différents fichiers de l'employé (carte d'identité, passeport, permis de conduire).
+      Il est possible d'ajouter, d'afficher les détails, modifier, supprimer ou désactiver un employé.</small>
+  </div>
+  <div class="col-12  mx-auto">
+    <div class="row">
+      <% if(typeof modifier != 'undefined' && modifier == 1){%>
+      <div class="col-lg-6 col-sm-12 mt-4 text-center">
+        <div class="row">
+          <div class="col-md-6 col-sm-12">
+            <a class="text-gris69 lien-gris" href="employe/ajouter"> <img src="/img/ajouter.png"> Ajouter un employé</a>
+          </div>
+        </div>
+      </div>
+      <%}%>
+      <div class="col-lg-6 col-sm-12 mt-4 text-center">
+        <div class="btn-group btn-group-toggle d-inline-block" data-toggle="buttons">
+        <label class="btn btn-secondary text-black btn-vert rounded active">
+          <input type="radio" id="active_profile" autocomplete="off" checked>Actifs
+        </label>
+        <label class="btn btn-secondary text-black btn-rouge rounded">
+          <input type="radio" id="disable_profile" autocomplete="off">Non actifs
+        </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2 mb-5">
+    <div class="col-12">
+      <div class="row" id="activated_profile">
+        <%
+        if(typeof result != 'undefined'){
+          result.forEach(function(element){
+            if(element.actif == 1){
+            %>
+            <%- include('template_table_employee' , {element:element})-%>
+            <%}}) }else{%>
+          <p> Il n'y pas d'employés.</p>
+          <%} %>
+      </div>
+
+      <div class="row d-none" id="disabled_profile">
+        <%
+        if(typeof result != 'undefined'){
+          result.forEach(function(element){
+            if(element.actif == 0){
+            %>
+            <%- include('template_table_employee' , {element:element})-%>
+            <%}}) }else{%>
+          <p> Il n'y pas d'employés.</p>
+          <%} %>
+      </div>
+    </div>
+  </div>
+
+
+        <div class="modal fade"  id="delete-modal" tabindex="-1" role="dialog">
+          <div class="modal-dialog mt-200 p-4" role="document">
+            <div class="modal-content border-0 rounded-0">
+              <div class="modal-body bg-bleufayat text-white fs-16 ">
+                <p class="">Êtes-vous sûr de vouloir supprimer <span id="delete-emp-name"></span> ?</p>
+                <input type="hidden" id="emp-id" value="">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Non</button>
+                <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="val-del-emp">Oui</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<script type="text/javascript">
+
+  $(document).on('click', '.deleteEmployee', function(){
+    console.log(this.id.substring(6));
+    $('#emp-id').val(this.id.substring(6));
+  });
+
+  $(document).on('click', '#val-del-emp', function(){
+    $.ajax({
+      url : '/deleteEmployee/'+$('#emp-id').val(),
+      method : 'POST',
+      success : function(response){
+        if(response == 'success'){
+          location.reload();
+        }
+        else{
+
+        }
+      }
+    })
+  });
+
+  $(document).on("click","input[type='checkbox']", function(){
+    console.log(this.id)
+    console.log($('#'+this.id).prop('checked'));
+    var active =0;
+    if($('#'+this.id).prop('checked') == true){active = 1}
+    $.ajax({
+      url : '/activate/'+this.id.substring(5)+'/'+active,
+      method : 'POST',
+      success : function(){
+        window.location.reload();
+      }
+    })
+});
+
+  $(document).on('change', "#active_profile", function(){
+    $('#activated_profile').removeClass('d-none');
+    $('#disabled_profile').addClass('d-none');
+  });
+
+  $(document).on('change', "#disable_profile", function(){
+    $('#activated_profile').addClass('d-none');
+    $('#disabled_profile').removeClass('d-none');
+  })
+</script>

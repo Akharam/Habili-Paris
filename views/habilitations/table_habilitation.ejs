@@ -1,0 +1,87 @@
+<div class="container">
+  <div class="col-12 mt-5">
+    <h1>Liste des habilitations / autorisations enregistrées</h1>
+    <small>Cette page regroupe les habilitations/autorisations de l’entreprise, on y retrouve toutes les informations comprenant le titre, la durée de validité et de souplesse ainsi qu'une description.
+    Il est possible d'ajouter, d'afficher les détails, modifier, ou supprimer une habilitation/autorisation.</small>
+  </div>
+  <% if(typeof modifier != 'undefined' && modifier == 1){%>
+  <div class="d-flex justify-content-end">
+  	<div class="p-2 bd-highlight mr-5 mt-5 mx-auto">
+  		<a class="ajouter text-gris69 lien-gris mr-3" href="certifications/ajouter"><img src="/img/ajouter.png">Ajouter une habilitation / autorisation</a>
+  	</div>
+  </div>
+  <%}%>
+  <div class="row mt-4 mb-5">
+    <div class="container">
+      <ul class="list-group">
+      <%
+      if(typeof result != 'undefined'){
+       result.forEach(function(element){%>
+          <li class="list-group-item my-2">
+            <%- include('template_table_certif', {element: element}) -%>
+          </li>
+    <%});}%>
+  </ul>
+    </div>
+  </div>
+
+  <%
+  if(typeof result != 'undefined')
+  {result.forEach(function(element){%>
+    <div class="modal fade"  id="desc-modal-<%= element.ID_certif%>" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content rounded-0 border-0 ">
+          <div class="modal-header bg-bleufayat rounded-0 ">
+            <h5 class="modal-title text-white" id="exampleModalCenterTitle">Description de <%= element.nom_certif%></h5>
+          </div>
+          <div class="modal-body text-justify bg-grisE5">
+            <p><%= element.Description_certif%></p>
+    				<input type="hidden" id="cert-id" value="">
+          </div>
+          <div class="modal-footer bg-bleufayat rounded-0">
+    				<button type="button" class="btn float-right rounded-pill bg-jaunefayat border-jaunefayat text-black" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%});}%>
+
+  <div class="modal fade"  id="delete-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200 p-4" role="document">
+      <div class="modal-content border-0 rounded-0">
+        <div class="modal-body bg-bleufayat text-white fs-16 ">
+  	      <p>Êtes-vous sûr de vouloir supprimer <span id="delete-cert-name"></span> ?</p>
+  				<input type="hidden" id="cert-id" value="">
+        </div>
+        <div class="modal-footer">
+  				<button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Non</button>
+          <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="val-del-cert">Oui</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+	$(document).on('click', '.deleteCertif', function(){
+		console.log(this.id.substring(7));
+		$('#cert-id').val(this.id.substring(7));
+	});
+
+	$(document).on('click', '#val-del-cert', function(){
+		$.ajax({
+			url : '/deleteCertif/'+$('#cert-id').val(),
+			method : 'POST',
+			success : function(response){
+				if(response == 'success'){
+					location.reload();
+				}
+				else{
+
+				}
+			}
+		})
+	})
+</script>

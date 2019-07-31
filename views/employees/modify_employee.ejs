@@ -1,0 +1,764 @@
+<div class="container">
+  <div class=" col-12 mt-5">
+    <h1>Formulaire pour <%if(type == 'add'){%>
+      ajouter
+    <%}else{%>
+      modifier
+    <%}%> les informations de l'employé</h1>
+
+  </div>
+  <div class="row mt-2">
+    <div class="col-12">
+      <h4 class="">Informations générales</h4>
+    </div>
+  </div>
+
+
+      <!--NOM et PRENOM-->
+      <div class="row">
+        <div class="col-md-6 col-sm-12 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Nom :</span>
+          </div>
+          <input type="text" class="form-control input_modify" id="f-employee-name" <%if(typeof user_info != 'undefined' && user_info.nom_emp){%>value="<%= user_info.nom_emp %>"<%}%>>
+        </div>
+        <div class="col-md-6 col-sm-12 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Prénom :</span>
+          </div>
+          <input type="text" class="form-control input_modify" id="f-employee-surname"<%if(typeof user_info != 'undefined' && user_info.prenom_emp){%>value="<%= user_info.prenom_emp %>"<%}%>>
+        </div>
+      </div>
+
+      <!--DATE VISITE MEDICAL et DATE EMBAUCHE et CONTRAT-->
+      <div class="row">
+        <div class="col-sm-12 col-md-4 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" >Date visite médicale :</span>
+          </div>
+          <input type="date" class="form-control input_modify" id="f-employee-medical-visit" <%if(typeof user_info != 'undefined' && user_info.visite_med){%>value="<%= user_info.visite_med %>"<%}%>>
+        </div>
+
+        <div class="col-sm-12 col-md-3 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" >Durée de validité (années) : </span>
+          </div>
+          <input type="number" min="0" class="form-control input_modify" id="f-employee-medical-length" <%if(typeof user_info != 'undefined' && user_info.Duree_visite_medicale){%>value="<%= user_info.Duree_visite_medicale %>"<%}%>>
+        </div>
+
+        <div class="col-sm-12 col-md-5 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Commentaire :</span>
+          </div>
+          <textarea class="form-control" id="f-employee-medical-comment"><%if(typeof user_info != 'undefined' && user_info.Comment_visite_med){%><%= user_info.Comment_visite_med %><%}%></textarea>
+        </div>
+
+      </div>
+
+      <!-- POSTE -->
+      <div class="row">
+        <div class="col-sm-12 col-md-4 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Département - Poste :</span>
+          </div>
+          <select class="custom-select input_modify" id="f-employee-post">
+            <option disabled value="0">Choisir</option>
+            <%
+            if(typeof postes != 'undefined'){
+             postes.forEach(function(element){%>
+               <option value="<%=element.id_poste %>"
+                 <%
+                 if(typeof user_info != 'undefined'){
+                   if(element.id_poste == user_info.poste){%>selected<%}}%>>
+                   <%=element.poste%>
+               </option>
+          <%});}%>
+          </select>
+        </div>
+        <div class="col-sm-12 col-md-4 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" >Date embauche :</span>
+          </div>
+          <input type="date" class="form-control input_modify" id="f-employee-hiring" <% if(typeof user_info != 'undefined' && user_info.date_embauche){%>value="<%= user_info.date_embauche %>"<%}%>>
+        </div>
+
+        <div class="col-sm-12 col-md-4 input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" >Contrat :</span>
+          </div>
+          <select class="custom-select input_modify" name="Contrat" id="f-employee-contract">
+            <% if(user_info.contrat){%>
+              <option value="<%= user_info.ID_contrat %>">Contrat</option>
+            <%}else{%>
+              <option selected disabled>Choisir</option>
+            <%}%>
+            <%
+            if(typeof contracts != 'undefined'){
+             contracts.forEach(function(element){%>
+                 <option value="<%= element.ID_contrat %>" <% if(element.ID_contrat == user_info.contrat){%>selected<%}%>><%=element.nom_contrat%></option>
+            <%});}%>
+          </select>
+        </div>
+      </div>
+
+      <!--PHOTOS-->
+      <div class="row mt-2">
+
+        <div class="col-lg-4 col-sm-12 text-center mt-2 mb-3">
+          <form enctype="multipart/form-data">
+            <div class="form-group  mb-0">
+              <label class="file-upload">
+                  Choisir le certificat médical
+                  <input type="file" id='f-up-vm' data-browse-on-zone-click="true">
+              </label>
+            </div>
+          </form>
+          <input type="hidden" id='f-vm-pdf' value="">
+          <img src="" id='f-vm-img' style="max-width : 100%; max-height : 8rem;">
+          <%if(typeof user_info != 'undefined'){if(user_info.certificat_medical != null){%>
+            <a class=" lien-gris text-gris69" target="_blank" href="/img/photo/<%= user_info.certificat_medical%>">Fichier déjà enregistré</a>
+          <%}}%>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 text-center mt-2 mb-3">
+          <form enctype="multipart/form-data">
+            <div class="form-group mb-0">
+              <label class="file-upload">
+                  Choisir une photo de l'employé
+                  <input type="file" id='f-up-photo' data-browse-on-zone-click="true">
+              </label>
+            </div>
+          </form>
+          <input type="hidden" id='f-photo-pdf' value="">
+          <img src="" id='f-photo-img' style="max-width : 100%; max-height : 8rem;">
+          <%if(typeof user_info != 'undefined'){if(user_info.photo_emp != null){%>
+            <a class=" lien-gris text-gris69" target="_blank" href="/img/photo/<%= user_info.photo_emp%>">Fichier déjà enregistré</a>
+          <%}}%>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 text-center mt-2 mb-3">
+          <form enctype="multipart/form-data">
+            <div class="form-group mb-0">
+              <label class="file-upload">
+                  Choisir une pièce d'identité
+                  <input type="file" id='f-up-pi' data-browse-on-zone-click="true">
+              </label>
+            </div>
+          </form>
+          <input type="hidden" id='f-pi-pdf' value="">
+          <img src="" id='f-pi-img' style="max-width : 100%; max-height : 8rem;">
+          <%if(typeof user_info != 'undefined'){if(user_info.piece_identite != null){%>
+            <a class=" lien-gris text-gris69" target="_blank" href="/img/piece_identite/<%= user_info.piece_identite%>">Fichier déjà enregistré</a>
+          <%}}%>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 text-center mt-2 mb-3">
+          <form enctype="multipart/form-data">
+            <div class="form-group mb-0">
+              <label class="file-upload">
+                  Choisir le permis de conduire
+                  <input type="file" id='f-up-pc' data-browse-on-zone-click="true">
+              </label>
+            </div>
+          </form>
+          <input type="hidden" id='f-pc-pdf' value="">
+          <img src="" id='f-pc-img' style="max-width : 100%; max-height : 8rem;">
+          <%if(typeof user_info != 'undefined'){if(user_info.permis_conduire != null){%>
+            <a class=" lien-gris text-gris69" target="_blank" href="/img/permis_conduite/<%= user_info.permis_conduire%>">Fichier déjà enregistré</a>
+          <%}}%>
+        </div>
+
+        <div class="col-lg-4 col-sm-12 text-center mt-2 mb-3">
+          <form enctype="multipart/form-data">
+            <div class="form-group  mb-0">
+              <label class="file-upload">
+                  Choisir le passeport
+                  <input type="file" id='f-up-passeport' data-browse-on-zone-click="true">
+              </label>
+            </div>
+          </form>
+          <input type="hidden" id='f-passeport-pdf' value="">
+          <img src="" id='f-passeport-img' style="max-width : 100%; max-height : 8rem;">
+          <%if(typeof user_info != 'undefined'){if(user_info.passeport != null){%>
+            <a class=" lien-gris text-gris69" target="_blank" href="/img/passeport/<%= user_info.passeport%>">Fichier déjà enregistré</a>
+          <%}}%>
+        </div>
+      </div>
+
+    <%if (type == 'edit'){%>
+      <div class="row my-3">
+        <a class="mt-2 lien-gris text-gris69 ml-1 mx-auto" href="/" data-toggle="modal" data-target="#qr-generation">
+          <img class="mr-1 ml-auto" src="/img/qr-code.png"><span class="fs-16">Générer un nouveau QR Code</span>
+        </a>
+      </div>
+    <%}%>
+
+      <!--BUTTON-->
+      <div class="row">
+        <div class="col-md-6 text-center mt-2">
+          <a href="/employes" class="btn rounded-pill color-black bg-grisCA border-grisCA text-black mx-auto">Retour</a>
+        </div>
+        <div class="col-md-6 text-center mt-2">
+          <button class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black mx-auto" id="f-employee-submit"><%if(type == 'add'){%>
+              Créer
+            <%}else{%>
+              Enregistrer
+            <%}%></button>
+        </div>
+      </div>
+  <%if (type == 'edit'){%>
+    <div class="row my-4">
+      <div class="col-lg-12 col-sm-12 px-5">
+      <h4 class="text-left">Habilitations/autorisations</h4>
+      <div class="row">
+          <a class="mt-2 mx-2 text-gris69 lien-gris" href="#" data-toggle="modal" data-target="#add-certification"><img src="/img/ajouter.png" height="35">Ajouter une habilitation/autorisation</a>
+      </div>
+      <div class="row my-1">
+        <%if (autorisation){%>
+          <!--<a href="/pdf/<%= user_info.ID_emp%>.pdf" target="_blank" class="mx-2" id="sign_certification">Signer les certifications</a>-->
+        <%}%>
+      </div>
+      <!--Signer une certification-->
+      <div class="modal fade"  id="modal-sign-certification" tabindex="-1" role="dialog">
+        <div class="modal-dialog mt-200 p-4" role="document">
+          <div class="modal-content">
+            <div class="modal-body blue_background">
+              <p class="fs-20">Déposer la liste des autorisations signée</p>
+              <div class="col-lg-4 col-sm-12 text-center mt-2">
+                <form enctype="multipart/form-data">
+                  <div class="form-group">
+                    <label class="file-upload">
+                        <input type="file" id='f-up-sign-aut' data-browse-on-zone-click="true">
+                    </label>
+                  </div>
+                </form>
+                <input type="hidden" id='f-in-aut-sign' value="">
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-primary" id="sign_certifications_save">Enregistrer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <% if(typeof certifications != 'undefined'){
+        certifications.forEach(function(element){%>
+        <ul class="col-sm-12 list-group">
+            <li class="list-group-item my-2">
+                <div class="row p-3">
+                  <div class="col-lg-4 col-sm-6">
+                    <p><%= element.nom_certif%></p>
+                  </div>
+                  <div class="col-lg-2 col-sm-6">
+                    <p><span class="font-weight-bold">OBTENTION : </span><%= element.date_passage%></p>
+                  </div>
+                  <div class="col-lg-2 col-sm-6">
+                    <p><span class="font-weight-bold">EXPIRATION : </span><%= element.Date_fin%></p>
+                  </div>
+                  <div class="col-lg-2 col-sm-6">
+                    <div class="row my-1">
+                      <a href="#!" data-target ="#modify-cert-<%= element.ID_liaison%>" data-toggle="modal">Modifier</a>
+                    </div>
+                  </div>
+                  <div class="col-lg-2 col-sm-6">
+                    <% if( element.Fichier_certif != "null"){%>
+                      <a href="#">
+
+                        <a class="lien-souligne text-gris69 underline" href="/img/certifications/<%= element.Fichier_certif %>" target="_blank"><img src="/img/imprimer.png"></a>
+                      </a>
+                    <%}else{%>
+                        <p>Aucun certificat enregistré.</p>
+                    <%}%>
+                  </div>
+                </div>
+            </li>
+        </ul>
+        <!--Modifier une certification-->
+        <div class="modal fade"  id="modify-cert-<%= element.ID_liaison%>" tabindex="-1" role="dialog">
+          <div class="modal-dialog mt-200 p-4" role="document">
+            <div class="modal-content">
+              <div class="modal-body blue_background">
+                <p>Ajouter une certification</p>
+                <div class="row">
+                  <div class="col-12 input-group">
+                    <select class="custom-select" id="f-choose-certification<%= element.ID_liaison%>">
+                      <option disabled>Choisir...</option>
+                      <% all_certifications.forEach(function(all_certifications_elements){%>
+                        <option value="<%= all_certifications_elements.ID_certif%>" <% if(all_certifications_elements.ID_certif == element.ID_certif){%>selected<%}%>><%= all_certifications_elements.Nom_certif%></option>
+                      <%})%>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <a href="/certifications/ajouter">Ajouter une certification non existante</a>
+                  </div>
+                  <div class="col-12 input-group my-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" >Date d'obtention :</span>
+                    </div>
+                    <input type="date" class="form-control input_modify" id="f-employee-obtention<%= element.ID_liaison%>" value="<%= element.date_passage.toString().substring(6)+"-"+element.date_passage.toString().substring(3,5)+"-"+element.date_passage.toString().substring(0,2)  %>">
+                  </div>
+                  <div class="col-12 input-group">
+                    <div class="row form-check py-0 mb-2">
+                      <input class="form-check-input mt-0" type="checkbox" value="" id="d-e-d<%= element.ID_liaison%>">
+                      <label class="form-check-label" for="define_end_date<%= element.ID_liaison%>">
+                        Définir la date de fin
+                      </label>
+                    </div>
+                    <div class="row">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="f-input-date-fin<%= element.ID_liaison%>">Date de fin :</span>
+                      </div>
+                      <input type="date" class="form-control input_modify" disabled id="f-employee-fin<%= element.ID_liaison%>" value="">
+                    </div>
+                  </div>
+                  <form class="col-12 input-group my-3" enctype="multipart/form-data">
+                        <div class="form-group">
+                                <label class="file-upload">
+                                    Choisir un fichier...
+                                    <input id="f-add-certification<%= element.ID_liaison %> " type="file" class="file" data-browse-on-zone-click="true">
+                                </label>
+                                <%if(element.Fichier_certif){%>
+                                  <% if(element.Fichier_certif.slice(-3) == 'pdf'){%>
+                                    <a target="_blank" href="<%= "/img/certifications/"+element.Fichier_certif%>" alt="" style="max-width : 100%; max-height : 8em;">pdf</a>
+                                    <img src="" id="f-img<%= element.ID_liaison%>" alt="" style="max-width : 100%; max-height : 8em;">
+
+                                  <%}else if (element.Fichier_certif.slice(-3) == 'jpg') {%>
+                                    <img src="<%= "/img/certifications/"+element.Fichier_certif%>" id="f-img<%= element.ID_liaison%>" alt="" style="max-width : 100%; max-height : 8em;">
+                                  <%}else{%>
+                                    <input type="hidden" id="f-up-pdf<%= element.ID_liaison%>" value="">
+                                    <img src="" id="f-img<%= element.ID_liaison%>" alt="" style="max-width : 100%; max-height : 8em;">
+                                <%}%>  <input type="hidden" id="f-up-pdf<%= element.ID_liaison%>" value=""><%}%>
+                        </div>
+                  </form>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary mod-certification" id="f-certifications-submit<%= element.ID_liaison%>">Enregistrer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <%})}else{%>
+        <p> Cet employé n'a aucune certification.</p>
+      <%} %>
+      </div>
+    </div>
+    <!--Ajouter une certification-->
+    <div class="modal fade"  id="add-certification" tabindex="-1" role="dialog">
+      <div class="modal-dialog mt-200 p-4" role="document">
+        <div class="modal-content">
+          <div class="modal-body blue_background">
+    	      <p>Ajouter une certification</p>
+            <div class="row">
+              <div class="col-12 input-group">
+                <select class="custom-select" id="f-choose-certification">
+                  <option selected disabled>Choisir...</option>
+                  <% all_certifications.forEach(function(element){%>
+                    <option value="<%= element.ID_certif%>"><%= element.Nom_certif%></option>
+                  <%})%>
+                </select>
+              </div>
+              <div class="col-12">
+                <a href="/certifications/ajouter" class="">Ajouter une certification non existante</a>
+              </div>
+              <div class="col-12 input-group my-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" >Date d'obtention :</span>
+                </div>
+                <input type="date" class="form-control input_modify" id="f-employee-obtention" >
+              </div>
+              <div class="col-12 input-group">
+                <div class="row form-check py-0 mb-2">
+                  <input class="form-check-input mt-0" type="checkbox" value="" id="d-e-d">
+                  <label class="form-check-label" for="define_end_date">
+                    Définir la date de fin
+                  </label>
+                </div>
+                <div class="row">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="f-input-date-fin">Date de fin :</span>
+                  </div>
+                  <input type="date" class="form-control input_modify" disabled id="f-employee-fin" value="">
+                </div>
+              </div>
+              <form class="col-12 input-group my-3" enctype="multipart/form-data">
+                    <div class="form-group">
+                            <label class="file-upload">
+                                Choisir un fichier...
+                                <input id="f-add-certification" type="file" class="file" data-browse-on-zone-click="true">
+                            </label>
+                            <input type="hidden" id="f-up-pdf" value="">
+                            <img src="" id="f-img" alt="" style="max-width : 100%; max-height : 8em;">
+                    </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+    				<button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn btn-primary" id="f-certifications-submit">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade"  id="qr-generation" tabindex="-1" role="dialog">
+      <div class="modal-dialog mt-200 p-4" role="document">
+        <div class="modal-content">
+          <div class="modal-body blue_background">
+            <p>Regénérer le QR code de la carte employé.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn btn-primary" id="f-qr-reset">Regénérer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <%}%>
+</div>
+
+
+<script>
+function getValues(){
+  var jsonvalues={};
+  jsonvalues["name"] = $('#f-employee-name').val();
+  jsonvalues["surname"] = $('#f-employee-surname').val();
+  jsonvalues["hiring"] = $('#f-employee-hiring').val();
+  jsonvalues["medical-visit"] = $('#f-employee-medical-visit').val();
+  jsonvalues["contract"] = $('#f-employee-contract').val();
+  jsonvalues["post"] = $('#f-employee-post').val();
+  jsonvalues["medical_length"] = $('#f-employee-medical-length').val();
+  jsonvalues["medical_comment"] = $('#f-employee-medical-comment').val();
+
+  if($('#f-passeport-img').prop('src').length > 150){
+    jsonvalues["passeport_file_type"] = 'img';
+    jsonvalues["passeport_file"] = $('#f-passeport-img').prop('src');
+  }
+  else if ($('#f-passeport-pdf').val().length > 150) {
+      jsonvalues["passeport_file_type"] = 'pdf';
+      jsonvalues["passeport_file"] = $('#f-passeport-pdf').val();
+  }
+
+  if($('#f-vm-img').prop('src').length > 150){
+    jsonvalues["vm_file_type"] = 'img';
+    jsonvalues["vm_file"] = $('#f-vm-img').prop('src');
+  }
+  else if ($('#f-vm-pdf').val().length > 150) {
+      jsonvalues["vm_file_type"] = 'pdf';
+      jsonvalues["vm_file"] = $('#f-vm-pdf').val();
+  }
+
+  if($('#f-photo-img').prop('src').length > 150){
+    jsonvalues["photo_file_type"] = 'img';
+    jsonvalues["photo_file"] = $('#f-photo-img').prop('src');
+  }
+  else if ($('#f-photo-pdf').val().length > 150) {
+      jsonvalues["photo_file_type"] = 'pdf';
+      jsonvalues["photo_file"] = $('#f-photo-pdf').val();
+  }
+
+  if($('#f-pi-img').prop('src').length > 150){
+    jsonvalues["pi_file_type"] = 'img';
+    jsonvalues["pi_file"] = $('#f-pi-img').prop('src');
+  }
+  else if ($('#f-pi-pdf').val().length > 150) {
+      jsonvalues["pi_file_type"] = 'pdf';
+      jsonvalues["pi_file"] = $('#f-pi-pdf').val();
+  }
+
+  if($('#f-pc-img').prop('src').length > 150){
+    jsonvalues["pc_file_type"] = 'img';
+    jsonvalues["pc_file"] = $('#f-pc-img').prop('src');
+  }
+  else if ($('#f-pc-pdf').val().length > 150) {
+      jsonvalues["pc_file_type"] = 'pdf';
+      jsonvalues["pc_file"] = $('#f-pc-pdf').val();
+  }
+  console.log(jsonvalues);
+
+  return jsonvalues;
+}
+
+$(document).on('click', '#sign_certification', function(){
+  $('#modal-sign-certification').modal('show');
+})
+
+$(document).on('click', '.form-check-input', function(){
+  console.log($(this.id).prop('checked'))
+  console.log($('#d-e-d'+this.id.substring(5)).prop('checked'));
+
+  if($('#d-e-d'+this.id.substring(5)).prop('checked') == true){
+    console.log("true")
+    $('#f-employee-fin'+this.id.substring(5)).prop('disabled', false);
+  }
+  else{
+    console.log("false")
+      $('#f-employee-fin'+this.id.substring(5)).prop('disabled', true);
+  }
+})
+
+$(document).on('click', '#f-employee-submit', function(){
+  $('#f-employee-submit').attr('disabled', 'disabled');
+  $.ajax({
+    <%if(type == 'add'){%>
+      url : '/create',
+    <%}else{%>
+      url : '/modify/<%= user_info.ID_emp%>',<%}%>
+    method : 'POST',
+    data : getValues(),
+    success : function(response){
+      $('#f-employee-submit').attr('disabled', false);
+      if(response == 'success'){
+        window.location.replace("/employes");
+      }
+    }
+  })
+});
+
+<%if(type != 'add'){%>
+
+  $(document).on('click', '#f-qr-reset', function(){
+    $.ajax({
+      url : '/resetQR/<%= user_info.ID_emp%>',
+      method: 'POST',
+      success : function(){
+          location.reload();
+      },
+      error : function(){
+            location.reload();
+      }
+    })
+  });
+
+  $(document).on('click', '.mod-certification', function(){
+    var id = this.id.substring(23);
+    console.log(id)
+    var jsonvalues={};
+    var certif = "<%= JSON.stringify(all_certifications)%>";
+    certif = JSON.parse(certif.replace(/&#34;/g,'"'));
+
+    jsonvalues["certification"] = $('#f-choose-certification'+id).val();
+
+
+    if($('#d-e-d'+id).prop('checked') == true){
+      jsonvalues["expiration_date"] = $('#f-employee-fin'+id).val()
+    }
+    else{
+      for (var i in certif) {
+        if(certif[i].ID_certif == $('#f-choose-certification'+id).val()){
+          var date_1 = new Date($('#f-employee-obtention'+id).val());
+          jsonvalues["expiration_date"] = new Date(date_1.getFullYear()+ parseFloat(certif[i].Duree_valide), date_1.getMonth(), date_1.getDate(),0,0,0,0).toISOString().slice(0,10);
+        }
+      }
+    }
+
+    jsonvalues["date"] = $('#f-employee-obtention'+id).val();
+    if($('#f-img'+id).prop('src').length > 150){
+      jsonvalues["file_type"] = 'img';
+      jsonvalues["file"] = $('#f-img'+id).prop('src');
+    }
+    else if ($('#f-up-pdf'+id).val().length > 150) {
+        jsonvalues["file_type"] = 'pdf';
+        jsonvalues["file"] = $('#f-up-pdf'+id).val();
+    }
+    $.ajax({
+      url : '/modifyCertif/<%= user_info.ID_emp%>/'+id,
+      method: 'POST',
+      data : jsonvalues,
+      dataType: 'json',
+      success : function(){
+        location.reload();
+      },
+      error : function(err){
+          location.reload();
+      }
+    });
+  });
+
+  $(document).on('click', '#f-certifications-submit', function(){
+    var jsonvalues={};
+    var certif = "<%= JSON.stringify(all_certifications)%>";
+    certif = JSON.parse(certif.replace(/&#34;/g,'"'));
+    jsonvalues["certification"] = $('#f-choose-certification').val();
+
+    if($('#d-e-d').prop('checked') == true){
+      jsonvalues["expiration_date"] = $('#f-employee-fin').val()
+    }
+    else{
+      for (var i in certif) {
+        if(certif[i].ID_certif == $('#f-choose-certification').val()){
+          console.log(certif[i].Duree_valide);
+          var date_1 = new Date($('#f-employee-obtention').val());
+          console.log(new Date(date_1.getFullYear()+ parseFloat(certif[i].Duree_valide), date_1.getMonth(), date_1.getDate()-1));
+          jsonvalues["expiration_date"] = new Date(date_1.getFullYear()+ parseFloat(certif[i].Duree_valide), date_1.getMonth(), date_1.getDate(),0,0,0,0).toISOString().slice(0,10);
+        }
+      }
+    }
+
+    jsonvalues["date"] = $('#f-employee-obtention').val();
+    if($('#f-add-certification').val()){
+      if(!$('#f-img').prop('src').includes('employe/edit')){
+        jsonvalues["file_type"] = "img";
+        jsonvalues["file"] = $('#f-img').prop('src');
+      }else{
+        jsonvalues["file_type"] = "pdf";
+        jsonvalues["file"] = $('#f-up-pdf').val();
+      }
+    }
+
+    $.ajax({
+      url : '/add-certification/<%= user_info.ID_emp%>',
+      method: 'POST',
+      data : jsonvalues,
+      dataType: 'json',
+      success : function(){
+        console.log('finished')
+          location.reload();
+      },
+      error : function(err){
+          location.reload();
+      }
+    });
+  })
+<%}%>
+
+$(document).on('change', '#f-up-sign-aut', function(){
+    loadImageFile('f-up-sign-aut', null, 'f-in-aut-sign')
+})
+
+$(document).on('click', '#sign_certifications_save', function(){
+  $.ajax({
+    url : '/upload-sign-file/<%= user_info.ID_emp%>',
+    method: 'POST',
+    data : {
+      file : $('#f-in-aut-sign').val()
+    },
+    success : function(){
+      location.reload();
+    },
+    error : function(){
+      location.reload();
+    }
+  })
+})
+
+$(document).on('change', '.file', function(){
+  console.log(this.id)
+  loadImageFile(this.id, "f-img"+this.id.substring(19), "f-up-pdf"+this.id.substring(19));
+})
+
+$(document).on('change', '#f-up-pi', function(){
+  loadImageFile('f-up-pi', "f-pi-img", "f-pi-pdf");
+})
+
+$(document).on('change', "#f-up-passeport", function(){
+  loadImageFile('f-up-passeport', "f-passeport-img", "f-passeport-pdf");
+})
+
+$(document).on('change', "#f-up-vm", function(){
+  loadImageFile('f-up-vm', "f-vm-img", "f-vm-pdf");
+})
+
+$(document).on('change', "#f-up-pc", function(){
+  loadImageFile('f-up-pc', "f-pc-img", "f-pc-pdf");
+})
+
+$(document).on('change', '#f-up-photo', function(){
+  loadImageFile('f-up-photo', "f-photo-img", "f-photo-pdf");
+})
+
+var loadImageFile = function (id, img, pdf) {
+  var fileReader = new FileReader();
+  var filterType = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+  var uploadImage = document.getElementById(id);
+
+  //check and retuns the length of uploded file.
+  if (uploadImage.files.length === 0) {
+    return;
+  }
+
+  //Is Used for validate a valid file.
+  var uploadFile = document.getElementById(id).files[0];
+  if (!filterType.test(uploadFile.type) ) {
+    if(uploadFile.type != "application/pdf"){
+      alert("Merci de sélectionner une image ou un PDF valide.");
+      $(id).val("");
+      return;
+    }
+  }
+  if(uploadFile.type != "application/pdf"){
+    fileReader.readAsDataURL(uploadFile);
+    fileReader.onload = function (event) {
+      var image = new Image();
+
+      image.onload=function(){
+          var canvas=document.createElement("canvas");
+          var context=canvas.getContext("2d");
+
+          var MAX_WIDTH = 800;
+          var MAX_HEIGHT = 600;
+          var width = image.width;
+          var height = image.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          context.drawImage(image,
+              0,
+              0,
+              image.width,
+              image.height,
+              0,
+              0,
+              canvas.width,
+              canvas.height
+          );
+          //console.log(canvas.toDataURL('image/jpeg', 0.86));
+          $('#'+pdf).val("");
+          $('#'+img).attr('src',canvas.toDataURL('image/jpeg', 0.86));
+      }
+      image.src=event.target.result;
+    };
+
+  }
+  else{
+    convertToBase64(id,img,pdf);
+  }
+
+}
+function convertToBase64(id, img, pdf) {
+    //Read File
+      var selectedFile = document.getElementById(id).files;
+      //Check File is not Empty
+      if (selectedFile.length > 0) {
+          // Select the very first file from list
+          var fileToLoad = selectedFile[0];
+          // FileReader function for read the file.
+          var fileReader = new FileReader();
+          var base64;
+          // Onload of file read the file content
+          fileReader.onload = function(fileLoadedEvent) {
+              base64 = fileLoadedEvent.target.result;
+              $('#'+img).attr('src', "");
+              $('#'+pdf).val(base64);
+          };
+          // Convert data to base64
+          fileReader.readAsDataURL(fileToLoad);
+      }
+
+  }
+</script>

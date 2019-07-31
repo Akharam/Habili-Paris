@@ -1,0 +1,80 @@
+<div class=" ml-5 mt-5 pl-5">
+  <%if(type == "add"){%><h1>Formulaire d'ajout d'une habilitation / autorisation</h1> <%}
+  else{
+    %><h1>Formulaire de modification d'une habilitation/autorisation</h1><%
+  }%>
+</div>
+
+<div class="mx-auto form mt-5">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="f-nom-certif">Nom de la certification</label>
+  </div>
+    <input type="text" class="form-control" id="f-nom-certif" <%if(typeof habilitations_infos != 'undefined'){%>value="<%= habilitations_infos.Nom_certif %>"<%}%>>
+</div>
+
+<div class="mx-auto form mt-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="f-duree-certif">Durée de validité en&nbsp;<span class="font-weight-bold underline">année(s)</span></label>
+  </div>
+    <input type="number" min="0" class="form-control" id="f-duree-certif" <%if(typeof habilitations_infos != 'undefined' ){%>value="<%= habilitations_infos.Duree_valide %>"<%}%>>
+</div>
+
+<div class="mx-auto form mt-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="f-desc-certif">Description</label>
+  </div>
+    <input type="text" class="form-control" id="f-desc-certif" <%if(typeof habilitations_infos != 'undefined'){%>value="<%= habilitations_infos.Description_certif %>"<%}%>>
+</div>
+
+<div class="mx-auto form mt-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="f-souplesse-certif">Souplesse en&nbsp;<span class="font-weight-bold underline">mois</span></label>
+  </div>
+    <input type="number" min="0" class="form-control" id="f-souplesse-certif" <%if(typeof habilitations_infos != 'undefined' ){%>value="<%= habilitations_infos.Periode_souplesse %>"<%}%>>
+</div>
+
+<div class="row mb-5">
+  <div class="col- mx-auto bouton_connexion mt-5">
+      <a href="/certifications"><button class="btn float-right rounded-pill color-black bg-grisCA border-grisCA" type="button">Retour</button></a>
+  </div>
+  <div class="col- mx-auto bouton_connexion mt-5">
+      <button class="btn float-right rounded-pill color-black bg-jaunefayat border-jaunefayat"  id="btn_modifier" type="button">Ajouter</button>
+  </div>
+</div>
+
+<script>
+  function getValues(){
+    var jsonvalues = {};
+    if($('#f-nom-certif').val()){
+      jsonvalues["nom"] = $('#f-nom-certif').val().trim()
+    }
+    if($('#f-duree-certif').val()){
+      jsonvalues["duree"] = $('#f-duree-certif').val();
+    }
+    if($('#f-desc-certif').val()){
+      jsonvalues["desc"] = $('#f-desc-certif').val();
+    }
+    if($('#f-souplesse-certif').val()){
+      jsonvalues["souplesse"] = $('#f-souplesse-certif').val();
+    }
+    return jsonvalues;
+  }
+  $(document).on('click', '#btn_modifier', function(){
+      $.ajax({
+        <% if(typeof habilitations_infos != 'undefined'){ %>
+          url : '/modifier-certif/<%= habilitations_infos.ID_certif %>',
+        <%}else{%>
+          url : '/ajouter-certif',
+        <%}%>
+    		method : 'POST',
+        data : getValues(),
+    		success : function(response){
+          if(response == 'success'){
+    			  window.location.replace("/certifications");
+    		  }
+    		  else{
+    		  }
+    		}
+    	})
+  })
+</script>

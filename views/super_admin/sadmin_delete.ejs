@@ -1,0 +1,48 @@
+<div class="text-center mt-5 mb-5 w-75 mx-auto">
+  <div class="text-danger text-uppercase fs-20 font-weight-bold underline lh-150">Attention !</div>
+  <div class="fs-20 font-weight-bold underline lh-150">Vous allez supprimer un compte "utilisateur"</div>
+  <p id="msg-error"></p>
+</div>
+<div class="mx-auto form mt-5">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="mail-sadmin-delete">Adresse mail du compte</label>
+  </div>
+  <select id="mail-sadmin-delete" class="form-control">
+    <option value="0" selected disabled>Choisir</option>
+    <% for(var i in users){%>
+      <option value="<%= users[i].Mail%>"><%= users[i].Mail%></option>
+    <%}%>
+  </select>
+</div>
+<div class="container">
+  <div class="row mx-auto">
+    <div class="col- mx-auto bouton_connexion mt-5">
+        <a href="/"><button class="btn float-right rounded-pill color-black bg-grisCA border-grisCA" id="btn_annuler" type="button">Annuler</button></a>
+    </div>
+    <div class="col- mx-auto bouton_connexion mt-5">
+        <button class="btn float-right rounded-pill color-black bg-jaunefayat border-jaunefayat" id="btn_supprimer" type="button">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+$(document).on('click', '#btn_supprimer', function(){
+    $.ajax({
+  	  url : '/supprimer_responsable',
+  		method : 'POST',
+      data : {
+        email: $('#mail-sadmin-delete').val()
+      },
+  		success : function(response){
+        if(response == 'success'){
+          window.location.replace("/");
+  		  }
+        else {
+          $('#msg-error').html('Email inexistant');
+          return 0;
+        }
+  		}
+  	})
+})
+</script>

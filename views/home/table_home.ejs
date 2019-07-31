@@ -1,0 +1,138 @@
+<div class="container">
+
+  <div class=" col-12 mt-5">
+    <h1>Habilitations / autorisations qui arrivent à terme</h1>
+    <small>Cette page regroupe l’intégralité des habilitations/autorisations qui arrivent à terme dans les 120 prochains jours pour les employées en qui sont considéré comme actif dans l’entreprise. 
+      Il est également possible de voir les certifications qui sont expiré mais toujours utilisable ainsi que celles qui ont déjà expiré et qui n’ont pas été renouvelé.</small>
+  </div>
+
+  <div class="col-12">
+    <div class="row">
+      <div class="btn-group btn-group-toggle mt-5 d-inline-block" data-toggle="buttons">
+        <label class="btn btn-secondary text-black btn-bleu active rounded mt-1 ">
+          <input type="radio" name="options" id="option0" autocomplete="off" checked> Toutes
+        </label>
+        <label class="btn btn-secondary text-black btn-jaune rounded mt-1">
+          <input type="radio" name="options" id="option1" autocomplete="off" checked> Av. expiration
+        </label>
+        <label class="btn btn-secondary text-black btn-orange rounded mt-1">
+          <input type="radio" name="options" id="option2" autocomplete="off"> En souplesse
+        </label>
+        <label class="btn btn-secondary text-black btn-rouge rounded mt-1">
+          <input type="radio" name="options" id="option3" autocomplete="off"> Expirées
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row mt-2" id="all">
+    <div class="col-12 mx-auto">
+      <%
+      if(typeof result != 'undefined'){
+        result.forEach(function(element){%>
+          <% if(element.niveau == "soon"){%>
+              <%- include('template_liste_home',{element : element}) -%>
+          <%}});%>
+          <% result.forEach(function(element){%>
+            <% if(element.niveau == "souplesse"){%>
+              <%- include('template_liste_home',{element : element}) -%>
+          <%}});%>
+          <% result.forEach(function(element){%>
+            <% if(element.niveau == "mort"){%>
+              <%- include('template_liste_home',{element : element}) -%>
+          <%}});%>
+        <%}%>
+      </div>
+    </div>
+
+
+  <div class="row mt-2 d-none" id="soon">
+    <div class="col-12 mx-auto">
+      <%
+      if(typeof result != 'undefined'){
+        result.forEach(function(element){%>
+          <% if(element.niveau == "soon"){%>
+            <%- include('template_liste_home',{element : element}) -%>
+        <%}%>
+        <%});}%>
+      </div>
+    </div>
+
+  <div class="row mt-2 d-none" id="soupless">
+    <div class="col-12 mx-auto">
+      <%
+      if(typeof result != 'undefined'){
+        result.forEach(function(element){%>
+          <% if(element.niveau == "souplesse"){%>
+            <%- include('template_liste_home',{element : element}) -%>
+        <%}%>
+        <%});}%>
+      </div>
+    </div>
+
+
+  <div class="row mt-2 d-none" id="finished">
+    <div class="col-12 mx-auto">
+      <%
+      if(typeof result != 'undefined'){
+        result.forEach(function(element){%>
+          <% if(element.niveau == "mort"){%>
+        <%- include('template_liste_home',{element : element}) -%>
+          <%}});}%>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script type="text/javascript">
+    $(document).on('change', '#option0', function(){
+      $('#all').removeClass('d-none');
+      if(!$('#soon').hasClass('d-none')){
+        $('#soon').addClass('d-none');
+      }
+      if(!$('#soupless').hasClass('d-none')){
+        $('#soupless').addClass('d-none');
+      }
+      if(!$('#finished').hasClass('d-none')){
+        $('#finished').addClass('d-none');
+      }
+    });
+    $(document).on('change', '#option1', function(){
+      $('#soon').removeClass('d-none');
+      if(!$('#all').hasClass('d-none')){
+        $('#all').addClass('d-none');
+      }
+      if(!$('#soupless').hasClass('d-none')){
+        $('#soupless').addClass('d-none');
+      }
+      if(!$('#finished').hasClass('d-none')){
+        $('#finished').addClass('d-none');
+      }
+    });
+    $(document).on('change', '#option2', function(){
+      $('#soupless').removeClass('d-none');
+      if(!$('#all').hasClass('d-none')){
+        $('#all').addClass('d-none');
+      }
+      if(!$('#soon').hasClass('d-none')){
+        $('#soon').addClass('d-none');
+      }
+      if(!$('#finished').hasClass('d-none')){
+        $('#finished').addClass('d-none');
+      }
+    });
+    $(document).on('change', '#option3', function(){
+      $('#finished').removeClass('d-none');
+      if(!$('#all').hasClass('d-none')){
+        $('#all').addClass('d-none');
+      }
+      if(!$('#soon').hasClass('d-none')){
+        $('#soon').addClass('d-none');
+      }
+      if(!$('#soupless').hasClass('d-none')){
+        $('#soupless').addClass('d-none');
+      }
+    });
+  </script>

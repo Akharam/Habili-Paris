@@ -1,0 +1,20 @@
+#small-link{
+  max-width: 50%;
+  text-align: center;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+#petit-lien{
+  color: #696969;
+  text-decoration: underline;
+}
+
+#petit-lien:hover{
+  color: #303030;
+  text-decoration: underline;
+}
+
+.row {
+  margin-right: auto;
+}

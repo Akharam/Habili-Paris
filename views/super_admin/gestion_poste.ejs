@@ -1,0 +1,193 @@
+<div class="container">
+  <div class=" col-12 mt-5">
+  <h1>Liste des postes enregistrés</h1>
+</div>
+
+<div class="d-flex justify-content-end">
+	<div class="p-2 bd-highlight mr-5 mt-5 mx-auto">
+		<a class="ajouter text-gris69 lien-gris mr-3" href="#" id="ajouter_poste" data-toggle="modal" data-target="#add-modal"> <img src="https://img.icons8.com/color/48/000000/plus.png"> Ajouter un poste</a>
+	</div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12 mx-auto">
+    <%
+    if(typeof result != 'undefined'){
+    i=1;
+     result.forEach(function(element){%>
+    <ul class="col-sm-12 list-group">
+        <li class="list-group-item my-2">
+            <div class="row mt-3">
+              <div class="col-lg-9 col-sm-10">
+                <div class="row">
+                  <div class="col-lg-12 col-sm-12">
+                    <p><span class="font-weight-bold">Nom du poste : </span><%= element.Nom_poste%></p>
+                  </div>
+                  <div class="col-lg-12 col-sm-12">
+                    <p><span class="font-weight-bold">Nom du département : </span><%= element.Nom_service%></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-sm-2">
+                <div class="row">
+                  <div class="col-lg-4 col-sm-12">
+                    <a href="!#" id="modifier-poste-<%= element.ID_poste%>" data-toggle="modal" data-target="#edit-modal-<%= element.ID_poste%>"><img src="https://img.icons8.com/color/48/000000/edit.png"></a>
+                  </div>
+                  <div class="col-lg-4 col-sm-12">
+                    <a href="!#" class="deleteCertif" id="d-poste-<%= element.ID_poste%>" data-toggle="modal" data-target="#delete-modal"><img src="https://img.icons8.com/color/48/000000/delete.png"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </li>
+    </ul>
+    <% i++ ;%>
+  <%});}%>
+  </div>
+</div>
+
+<div class="row mx-auto mb-5">
+  <div class="col- mx-auto bouton_connexion mt-5">
+      <a href="/"><button class="btn float-right rounded-pill color-black bg-grisCA border-grisCA" type="button">Retour</button></a>
+  </div>
+</div>
+</div>
+
+<div class="modal fade"  id="delete-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog mt-200 p-4" role="document">
+    <div class="modal-content border-0 rounded-0">
+      <div class="modal-body bg-bleufayat text-white fs-16 ">
+	      <p>Êtes-vous sûr de vouloir supprimer ?</p>
+				<input type="hidden" id="poste-id" value="">
+      </div>
+      <div class="modal-footer">
+				<button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Non</button>
+        <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="val-del-poste">Oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%
+if(typeof result != 'undefined')
+{
+  i=1;
+  result.forEach(function(element){%>
+<div class="modal fade azerty"  id="edit-modal-<%= element.ID_poste%>" tabindex="-1" role="dialog">
+  <div class="modal-dialog mt-200 p-4" role="document">
+    <div class="modal-content border-0 rounded-0">
+      <div class="modal-body bg-bleufayat text-white fs-16 ">
+	      <p>Nouveau nom du poste ?</p>
+        <input type="text" class="w-100" id="edit-poste-<%= element.ID_poste%>" value="<%= element.Nom_poste%>">
+        <p>Département ?</p>
+        <select class="custom-select" id="inputGroupSelect01-<%= element.ID_poste%>">
+          <% if(typeof result != 'undefined'){
+          i=1;
+          result2.forEach(function(element2){%>
+
+          <option value="<%= element2.ID_service %>"<% if(element.id_service == element2.ID_service){%>selected<%}%> ><%=element2.Nom_service%></option>
+          <% i++ ;%>
+          <%});}%>
+        </select>
+				<input type="hidden" id="poste-id" value="" placeholder="certif1">
+      </div>
+      <div class="modal-footer">
+				<button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="modifier-poste">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+<% i++ ;%>
+<%});}%>
+
+<div class="modal fade"  id="add-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog mt-200 p-4" role="document">
+    <div class="modal-content border-0 rounded-0">
+      <div class="modal-body bg-bleufayat text-white fs-16 ">
+	      <p>Nom du nouveau poste ?</p>
+        <input type="text" class="w-100" id="nouveau-poste" value="">
+        <p>Département ?</p>
+        <select class="custom-select" id="add-poste1">
+          <% if(typeof result2 != 'undefined'){
+          i=1;
+          result2.forEach(function(element2){%>
+          <option value="<%= element2.ID_service %>"><%=element2.Nom_service%></option>
+          <% i++ ;%>
+          <%});}%>
+        </select>
+				<input type="hidden" id="poste-id" value="" placeholder="certif1">
+      </div>
+      <div class="modal-footer">
+				<button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="add-poste">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+	$(document).on('click', '.deleteCertif', function(){
+		console.log(this.id.substring(8));
+		$('#poste-id').val(this.id.substring(8));
+	});
+
+	$(document).on('click', '#val-del-poste', function(){
+		$.ajax({
+			url : '/delete_Poste/'+$('#poste-id').val(),
+			method : 'POST',
+			success : function(response){
+				if(response == 'success'){
+					location.reload();
+				}
+				else{
+
+				}
+			}
+		})
+	})
+
+  $(document).on('click', '#add-poste', function(){
+    $.ajax({
+      url : '/ajouter_Poste/',
+      method : 'POST',
+      data : {
+        nom: $('#nouveau-poste').val(),
+        service: $('#add-poste1').val()
+      },
+      success : function(response){
+        if(response == 'success'){
+          location.reload();
+          $("input#nouveau-poste").val("");
+        }
+        else{
+
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '.azerty', function(){
+    $('#poste-id').val(this.id.substring(11));
+  });
+
+    $(document).on('click', '#modifier-poste', function(){
+      $.ajax({
+        url : '/modifier_Poste/'+$('#poste-id').val(),
+        method : 'POST',
+        data : {
+          nom: $('#edit-poste-'+$('#poste-id').val()).val(),
+          service: $('#inputGroupSelect01-'+$('#poste-id').val()).val()
+        },
+        success : function(response){
+          if(response == 'success'){
+            location.reload();
+          }
+          else{
+
+          }
+        }
+      })
+    })
+</script>

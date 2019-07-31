@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>HABILI PARIS</title>
+    <%- include('../head') -%>
+  </head>
+  <body>
+    <%if(typeof accessToken != 'undefined'){%>
+      <%- include('../header2') -%>
+      <%- include('../navigation_bar') -%>
+    <%}else{%>
+      <%- include('../header1')-%>
+    <%}%>
+    <%
+    if (type == "home"){%>
+        <%- include('table_employee') -%>
+    <%}
+    else if(type == "edit"){%>
+        <%- include('modify_employee') -%>
+    <%}
+    else if(type == "add"){%>
+        <%- include('modify_employee') -%>
+    <%}
+    else if(type == "display"){%>
+      <%- include('table_emp_hab') -%>
+    <%}%>
+
+    <%- include('../footer') -%>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <%- include('../head') -%>
+  </head>
+  <body>
+    <%- include('../header1') -%>
+    <%
+    if(title=="Entreprise")
+    {
+      %><%-
+      include('madmin_home')
+      -%><%
+    }
+    else if(title=="Entreprise ajouter")
+    {
+      %><%-
+      include('madmin_add')
+      -%><%
+    }
+    else if(title=="Entreprise modifier")
+    {
+      %><%-
+      include('madmin_edit')
+      -%><%
+    }
+    %>
+  </body>
+</html>

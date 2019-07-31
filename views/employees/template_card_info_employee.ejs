@@ -1,0 +1,126 @@
+<div class="row mt-2 bc-white py-3">
+  <div class="col-md-6 col-sm-12 centre-mobile">
+        <div class="row">
+          <div class="col-lg-4 col-sm-12 py-3">
+            <img class="photo-id"
+            <% if(result[0].Photo_emp && result[0].Photo_emp != null){%>
+              src="/img/photo/<%= result[0].Photo_emp%>"
+              style="max-height : "
+            <%}else{%>
+              src="/img/profile_picture.png"
+            <%}%>
+            alt="photo id">
+          </div>
+          <div class="col-lg-8 col-sm-12 py-3">
+            <div class="row">
+              <p class="mx-auto font-weight-bold fs-16"><%= result[0].nom_emp.toUpperCase()%> <%= result[0].prenom_emp.substring(0,1).toUpperCase()+result[0].prenom_emp.substring(1).toLowerCase()%></p>
+            </div>
+            <div class="row">
+              <p class="mx-auto"><%= result[0].nom_contrat%></p>
+            </div>
+            <div class="row">
+              <p class="mx-auto" ><span class="text-gris69">Département : </span> <%= result[0].nom_service%></p>
+            </div>
+            <div class="row">
+              <p class="mx-auto" ><span class="text-gris69">Poste : </span> <%= result[0].nom_poste%></p>
+            </div>
+            <div class="row">
+              <p class="mx-auto"><span class="text-gris69">Date embauche : </span> <%= result[0].date_embauche%></p>
+            </div>
+            <div class="row">
+              <% var difference_date_m_v =  new Date(parseInt(result[0].visite_med.substring(6)), parseInt(result[0].visite_med.substring(3,5)), parseInt(result[0].visite_med.substring(0,2))).getTime() +  result[0].Duree_visite_medicale*31536000000 - Date.now() %>
+              <p class="mx-auto bcr-<% if(difference_date_m_v > 31536000000){%>vert<%}else if(difference_date_m_v > 0 && difference_date_m_v < 31536000000){%>orange<%}else{%>rouge<%}%> pr-2"><span class="text-gris69">Visite médicale : </span><%= result[0].visite_med%> </p>
+              <% if(accessToken){%>
+                <p class="mx-auto fs-12">Validité : <%= result[0].Duree_visite_medicale%> année(s)</p>
+                <p class="mx-auto fs-12">Commentaire : <%= result[0].Comment_visite_med%></p>
+              <%}%>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="col-md-6 col-sm-12 text-center">
+    <div class="row">
+      <div class="col-md-4 col-sm-12">
+        <% if( result[0].Permis_conduire != null){%>
+          <a class="lien-souligne text-gris69 underline" href="/img/permis_conduite/<%= result[0].Permis_conduire %>" target="_blank">
+            <div class="row mx-0 my-1">
+              <img class="mx-auto" src="/img/driverlicense.png">
+            </div>
+            <div class="row m-0 p-0">
+              <p class="mx-auto p-0">Permis de conduire</p>
+            </div>
+          </a>
+        <%}else{%>
+            <p class="p-3">Aucun permis de conduire enregistré.</p>
+        <%}%>
+      </div>
+      <div class="col-md-4 col-sm-12 text-center">
+        <% if(result[0].Piece_identite != null){%>
+            <a class="lien-souligne text-gris69 underline" href="/img/piece_identite/<%= result[0].Piece_identite %>" target="_blank">
+              <div class="row mx-0 my-1">
+                <img class="mx-auto" src="/img/id-verified.png">
+              </div>
+              <div class="row m-0 p-0">
+                <p class="mx-auto p-0">Carte d'identité</p>
+              </div>
+            </a>
+        <%}else{%>
+          <p class="p-3">Aucune carte d'identité enregistrée.</p>
+        <%}%>
+      </div>
+      <div class="col-md-4 col-sm-12 text-center">
+        <% if(result[0].Passeport != null){%>
+            <a class="lien-souligne text-gris69 underline" href="/img/piece_identite/<%= result[0].Passeport %>" target="_blank">
+              <div class="row mx-0 my-1">
+                <img class="mx-auto" src="/img/passport.png" height="48px">
+              </div>
+              <div class="row m-0 p-0">
+                <p class="mx-auto p-0">Passeport</p>
+              </div>
+            </a>
+        <%}else{%>
+          <p class="p-3">Aucun passeport enregistré.</p>
+        <%}%>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-12">
+          <a class="lien-souligne text-gris69 underline" href="/carte/<%= result[0].ID_emp%>.pdf" target="_blank">
+            <div class="row mx-0 my-1">
+              <img class="mx-auto" src="/img/employee-card.png" height="48px">
+            </div>
+            <div class="row m-0 p-0">
+              <p class="mx-auto p-0">Carte employé</p>
+            </div>
+          </a>
+      </div>
+      <div class="col-md-4 col-sm-12">
+        <a class="lien-souligne text-gris69 underline"  href="/pdf/<%= result[0].ID_emp%>.pdf" target="_blank" id="pdf_certif">
+          <div class="row mx-0 my-1">
+            <img class="mx-auto" src="/img/pdf-2.png" height="48px">
+          </div>
+          <div class="row m-0 p-0">
+            <p class="mx-auto p-0">PDF global</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4 col-sm-12 text-center">
+        <% if(result[0].Certificat_medical != null){%>
+            <a class="lien-souligne text-gris69 underline" href="/img/visite_medicale/<%= result[0].Certificat_medical %>" target="_blank">
+              <div class="row mx-0 my-1">
+                <img class="mx-auto" src="/img/medical.png" height="48px">
+              </div>
+              <div class="row m-0 p-0">
+                <p class="mx-auto p-0">Certificat medical</p>
+              </div>
+            </a>
+        <%}else{%>
+          <p class="p-3">Aucun certificat médical enregistré.</p>
+        <%}%>
+      </div>
+    </div>
+    <div class="row">
+      <img class="mx-auto" src="<%= token%>" height="140" alt="">
+    </div>
+  </div>
+</div>

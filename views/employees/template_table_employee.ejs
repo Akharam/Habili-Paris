@@ -1,0 +1,92 @@
+<div class="col-md-6 col-sm-12 centre-mobile">
+      <div class="row bc-white px-2">
+        <% if(typeof modifier != 'undefined' && modifier == 1){%>
+          <div class="col-12 text-right">
+            <span>Activé/Désactivé</span>
+            <label class="switch">
+              <input type="checkbox" id="check<%= element.ID_emp%>" <% if(element.actif == 1){%>checked<%}%>>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        <%}%>
+        <div class="col-lg-4 col-sm-12 mt-4 text-center">
+          <img class="photo-id"
+          <% if(element.photo_emp != null){%>
+            src="/img/photo/<%= element.photo_emp%>"
+          <%}else{%>
+            src="/img/profile_picture.png"
+          <%}%>
+          alt="photo id">
+        </div>
+        <div class="col-lg-8 col-sm-12">
+          <div class="row mt-4">
+            <div class="col-lg-6 col-sm-12 font-weight-bold text-uppercase fs-16 mb-2">
+              <span><%= element.nom_emp%></span>
+            </div>
+            <div class="col-lg-6 col-sm-12 font-weight-bold fs-16 mb-2">
+              <span><%= element.prenom_emp%></span>
+            </div>
+            <div class="col-lg-12 col-sm-12 mt-2 mb-2">
+              <span><%= element.nom_contrat%></span>
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <span><span class="text-gris69">Département : </span> <%= element.nom_service%></span>
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <span><span class="text-gris69">Poste : </span> <%= element.nom_poste%></span>
+            </div>
+            <div class="col-12 mt-2 mb-2">
+              <span><span class="text-gris69">Date embauche : </span> <%= element.date_embauche%></span>
+            </div>
+            <div class=" col-12  mt-2 mb-2">
+              <% var difference_date_m_v =  new Date(parseInt(element.visite_med.substring(6)), parseInt(element.visite_med.substring(3,5)), parseInt(element.visite_med.substring(0,2))).getTime() +  element.duree_visite_medicale*31536000000 - Date.now() %>
+              <span class="bcr-<% if(difference_date_m_v > 31536000000){%>vert<%}else if(difference_date_m_v > 0 && difference_date_m_v < 31536000000){%>orange<%}else{%>rouge<%}%> pr-2"><span class="text-gris69">Visite médicale : </span><%= element.visite_med%> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row bc-white px-2">
+        <div class="col-lg-4 col-md-12 col-sm-12 mt-2 mb-2">
+          <% if( element.permis_conduire != null){%>
+            <a href="/img/permis_conduite/<%= element.permis_conduire %>" target="_blank">
+              <img src="/img/driverlicense.png" height="40px">
+            </a>
+          <%}%>
+
+          <% if( element.passeport != null){%>
+            <a href="/img/passeport/<%= element.passeport %>" target="_blank">
+              <img src="/img/passport.png" height="35px">
+            </a>
+          <%}%>
+
+          <% if(element.piece_identite != null){%>
+          <a href="/img/piece_identite/<%= element.piece_identite %>" target="_blank">
+            <img src="/img/id-verified.png" height="40px">
+            </a>
+          <%}%>
+        </div>
+        <div class="col-lg-8 col-md-12 col-sm-12 mt-3 mb-3 text-center text-gris69">
+          <p>
+          <% if(element.nb_certif_orange == 0){%>
+            0 habilitation / autorisation arrive à expiration
+          <%}else{%>
+            <%= element.nb_certif_orange%> habilitation(s) / autorisation(s) arrive(nt) à expiration
+          <%}%>
+          </p>
+        </div>
+      </div>
+      <div class="row mb-3 border-top bc-white px-2">
+        <div class="col-2 mt-2 offset-3">
+          <a href="/employe/<%= element.ID_emp%>/<%= element.Token_qr %>"><img src="/img/description.png"></a>
+        </div>
+
+        <% if(typeof modifier != 'undefined' && modifier == 1){%>
+        <div class="col-2 mt-2">
+          <a href="/employe/edit/<%= element.ID_emp%>"><img src="/img/crayon.png"></a>
+        </div>
+        <div class="col-2 mt-2">
+          <a href="!#" class="deleteEmployee" id="d-emp-<%= element.ID_emp%>" data-toggle="modal" data-target="#delete-modal"><img src="/img/poubelle.png"></a>
+        </div>
+        <%}%>
+      </div>
+</div>

@@ -1,0 +1,168 @@
+<div class="container">
+  <div class=" col-12 mt-5">
+  <h1>Liste des départements enregistrés</h1>
+</div>
+
+<div class="d-flex justify-content-end">
+	<div class="p-2 bd-highlight mr-5 mt-5 mx-auto">
+		<a class="ajouter text-gris69 lien-gris mr-3" href="!#" id="ajouter-service" data-toggle="modal" data-target="#add-modal"><img src="https://img.icons8.com/color/48/000000/plus.png">Ajouter un département</a>
+	</div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12 mx-auto">
+    <%
+    if(typeof result != 'undefined'){
+    i=1;
+     result.forEach(function(element){%>
+    <ul class="col-sm-12 list-group">
+        <li class="list-group-item my-2">
+            <div class="row mt-3">
+              <div class="col-lg-9 col-sm-10">
+                <div class="row">
+                  <div class="col-lg-12 col-sm-12">
+                    <p><span class="font-weight-bold">Nom du département : </span><%= element.Nom_service%></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-sm-2">
+                <div class="row">
+                  <div class="col-lg-4 col-sm-12">
+                    <a href="!#" id="modifier-service-<%= element.ID_service%>" data-toggle="modal" data-target="#edit-modal-<%= element.ID_service%>"><img src="https://img.icons8.com/color/48/000000/edit.png"></a>
+                  </div>
+                  <div class="col-lg-4 col-sm-12">
+                    <a href="!#" class="deleteCertif" id="d-service-<%= element.ID_service%>" data-toggle="modal" data-target="#delete-modal"><img src="https://img.icons8.com/color/48/000000/delete.png"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </li>
+    </ul>
+    <% i++ ;%>
+  <%});}%>
+  </div>
+</div>
+
+<div class="row mx-auto mb-5">
+  <div class="col- mx-auto bouton_connexion mt-5">
+      <a href="/"><button class="btn float-right rounded-pill color-black bg-grisCA border-grisCA" type="button">Retour</button></a>
+  </div>
+</div>
+</div>
+
+<div class="modal fade"  id="delete-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog mt-200 p-4" role="document">
+    <div class="modal-content border-0 rounded-0">
+      <div class="modal-body bg-bleufayat text-white fs-16 ">
+	      <p>Êtes-vous sûr de vouloir supprimer ?</p>
+				<input type="hidden" id="service-id" value="">
+      </div>
+      <div class="modal-footer">
+				<button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Non</button>
+        <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="val-del-service">Oui</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%
+if(typeof result != 'undefined')
+{
+  i=1;
+  result.forEach(function(element){%>
+  <div class="modal fade azerty"  id="edit-modal-<%= element.ID_service%>" tabindex="-1" role="dialog">
+    <div class="modal-dialog mt-200 p-4" role="document">
+      <div class="modal-content border-0 rounded-0">
+        <div class="modal-body bg-bleufayat text-white fs-16 ">
+  	      <p>Nouveau nom du département ?</p>
+          <input type="text" class="w-100" id="edit-service-<%= element.ID_service%>" value="<%= element.Nom_service%>">
+  				<input type="hidden" id="service-id" value="" placeholder="certif1">
+        </div>
+        <div class="modal-footer">
+  				<button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="modifier-service">Valider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% i++ ;%>
+<%});}%>
+
+<div class="modal fade"  id="add-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog mt-200 p-4" role="document">
+    <div class="modal-content border-0 rounded-0">
+      <div class="modal-body bg-bleufayat text-white fs-16 ">
+	      <p>Nom du nouveau département ?</p>
+        <input type="text" class="w-100" id="nouveau_dept" value="">
+				<input type="hidden" id="service-id" value="" placeholder="certif1">
+      </div>
+      <div class="modal-footer">
+				<button type="button" class="btn rounded-pill bg-grisCA border-grisCA text-black w-100" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn rounded-pill bg-jaunefayat border-jaunefayat text-black w-100" id="add-service">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	$(document).on('click', '.deleteCertif', function(){
+		console.log(this.id.substring(10));
+		$('#service-id').val(this.id.substring(10));
+	});
+
+	$(document).on('click', '#val-del-service', function(){
+		$.ajax({
+			url : '/delete_Service/'+$('#service-id').val(),
+			method : 'POST',
+			success : function(response){
+				if(response == 'success'){
+					location.reload();
+				}
+				else{
+
+				}
+			}
+		})
+	});
+
+  $(document).on('click', '#add-service', function(){
+    $.ajax({
+      url : '/ajouter_Service/',
+      method : 'POST',
+      data : {
+        nom: $('#nouveau_dept').val()
+      },
+      success : function(response){
+        if(response == 'success'){
+          location.reload();
+          $("input#nouveau_dept").val("");
+        }
+        else{
+
+        }
+      }
+    })
+  })
+
+  $(document).on('click', '.azerty', function(){
+    $('#service-id').val(this.id.substring(11));
+  });
+
+    $(document).on('click', '#modifier-service', function(){
+      $.ajax({
+        url : '/modifier_Service/'+$('#service-id').val(),
+        method : 'POST',
+        data : {
+          nom: $('#edit-service-'+$('#service-id').val()).val()
+        },
+        success : function(response){
+          if(response == 'success'){
+            location.reload();
+          }
+          else{
+
+          }
+        }
+      })
+    })
+</script>

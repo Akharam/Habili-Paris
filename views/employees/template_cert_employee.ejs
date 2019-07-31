@@ -1,0 +1,23 @@
+
+      <div class="col-12 my-1 bcl-<%if(element.niveau == "valid"){%>vert<%} else if(element.niveau == "soon"){%>jaune<%}else if (element.niveau=="souplesse"){%>orange<%}else {%>rouge<%}%> rounded text-decoration-none text-black py-0 bc-white w-100">
+        <div class="row my-2">
+          <div class="col-lg-3 col-sm-9 font-weight-bold fs-16">
+            <span><%= element.nom_certif%></span>
+          </div>
+          <div class="col-lg-3 col-sm-9">
+            <span><span class="text-gris69">Date d'obtention :</span><%= element.date_passage%></span>
+          </div>
+          <div class="col-lg-3 col-sm-9">
+            <span class="text-gris69">Fin de validité :</span><%= element.MaxTime%> (<%= element.diff%> jours restants)
+          </div>
+          <div class="col-lg-3 col-sm-12">
+              <% if( element.Fichier_certif != "null"){%>
+                  <a class="lien-souligne text-gris69 underline" href="/img/certifications/<%= element.Fichier_certif %>" target="_blank">
+                    <img src="/img/imprimer.png">
+                  </a>
+              <%}else{%>
+                  <p>Aucun certificat enregistré.</p>
+              <%}%>
+          </div>
+        </div>
+      </div>

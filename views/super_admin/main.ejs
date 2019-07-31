@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>ADMIN - HABILI PARIS</title>
+    <%- include('../head') -%>
+  </head>
+  <body>
+    <%- include('header3') -%>
+
+    <%
+    if(title=="Ajouter super admin")
+    {
+      %><%-
+      include('sadmin_form')
+      -%><%
+    }
+    else if(title=="Modifier super admin")
+    {
+      %><%-
+      include('sadmin_update')
+      -%><%
+    }
+    else if(title=="Accueil super admin")
+    {
+      %><%-
+      include('sadmin_home')
+      -%><%
+    }
+    else if(title=="Supprimer super admin")
+    {
+      %><%-
+      include('sadmin_delete')
+      -%><%
+    }
+    else if(title=="Gestion contrat")
+    {
+      %><%-
+      include('gestion_contrat')
+      -%><%
+    }
+    else if(title=="Modifier le mot de passe d\'un utilisateur")
+    {
+      %><%-
+      include('gestion_mdp')
+      -%><%
+    }
+    else if(title=="Gestion service")
+    {
+      %><%-
+      include('gestion_service')
+      -%><%
+    }
+    else if(title=="Gestion poste")
+    {
+      %><%-
+      include('gestion_poste')
+      -%><%
+    }
+    %>
+
+    <%- include('../footer') -%>
+  </body>
+</html>

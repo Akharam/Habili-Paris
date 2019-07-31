@@ -1,0 +1,21 @@
+<ul class="list-group">
+  <li class="list-group-item mt-2 mb-1">
+    <a href="/employe/<%= element.ID_emp %>/<%= element.Token_qr %>" class="text-decoration-none text-black">
+      <div class="row lien_row">
+        <div class="col-12 bcl-<%if(element.niveau == "soon"){%>jaune<%}else if (element.niveau=="souplesse"){%>orange<%}else {%>rouge<%}%> rounded ">
+          <div class="row my-2">
+            <div class="col-lg-3 col-sm-9">
+              <span class="font-weight-bold"></span><%= element.nom_emp%> <%= element.prenom_emp%>
+            </div>
+            <div class="col-lg-4 col-sm-9">
+              <span class="font-weight-bold"></span><%= element.nom_certif%>
+            </div>
+            <div class="col-lg-5 col-sm-9">
+              <span class="font-weight-bold">Fin de validité : </span><%= element.MaxTime%> (<%= element.diff%> jours restants)
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </li>
+</ul>

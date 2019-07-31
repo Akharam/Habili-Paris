@@ -1,0 +1,24 @@
+<header class="navbar navbar-expand-lg navbar-light bg-bleufayat">
+  <a class="navbar-brand" href="/">
+    <img src="/img/logo/<%= id_entreprise %>.jpg" alt="ets josephparis" class="logo">
+  </a>
+  <button class="navbar-toggler bg-white" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav m-auto">
+      <li class="border-right item_head <%if(title.toLowerCase().includes('employé')){%>active<%}%> ">
+        <a class="d-block text-white p-3 fs-16" href="/employes">Employés</a>
+      </li>
+      <li class="border-right item_head  <%if(title.toLowerCase().includes('accueil')){%>active<%}%>">
+        <a class="d-block text-white  p-3 fs-16" href="/">Prochaines échéances</a>
+      </li>
+      <li class="item_head <%if(title.toLowerCase().includes('certification')){%>active<%}%>">
+        <a class="d-block text-white p-3 fs-16" href="/certifications">Habilitations / autorisations</a>
+      </li>
+    </ul>
+    <div class="buttonHeader">
+      <a class="btn rounded-pill text-black bg-jaunefayat border-jaunefayat btn_header" href="/logout">Déconnexion</a>
+    </div>
+  </div>
+</header>

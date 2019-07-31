@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>HABILI PARIS</title>
+    <%- include('../head') -%>
+  </head>
+  <body>
+    <%- include('../header2') -%>
+    <%- include('../navigation_bar') -%>
+    <%
+    if (type == "home"){%>
+        <%- include('table_habilitation') -%>
+    <%}
+    else if(type == "add"){%>
+        <%- include('modify_habilitation') -%>
+    <%}
+    else if (type == "edit"){%>
+        <%- include('modify_habilitation') -%>
+    <%}
+    %>
+    <%- include('../footer')-%>
+  </body>
+</html>

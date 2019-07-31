@@ -1,0 +1,164 @@
+<div class="container">
+<div class="row mt-2">
+  <div class="col-12">
+    <h2>Informations générales</h2>
+    <%- include('template_card_info_employee',{element : result}) -%>
+  </div>
+</div>
+
+<div class="col-12">
+  <h2 class="text-left">Habilitations / autorisations</h2>
+</div>
+<div class="col-12">
+  <div class="btn-group btn-group-toggle mt-2 d-inline-block" data-toggle="buttons">
+    <label class="btn btn-secondary text-black btn-bleu rounded mt-1 active">
+      <input type="radio" name="options" id="all_click" autocomplete="off" checked>Toutes
+    </label>
+    <label class="btn btn-secondary text-black btn-vert rounded mt-1 ">
+      <input type="radio" name="options" id="valid_click" autocomplete="off" checked> Valides
+    </label>
+    <label class="btn btn-secondary text-black btn-jaune rounded mt-1 ">
+      <input type="radio" name="options" id="soon_click" autocomplete="off">A expiration
+    </label>
+    <label class="btn btn-secondary text-black btn-orange rounded mt-1 ">
+      <input type="radio" name="options" id="souplesse_click" autocomplete="off"> En souplesse
+    </label>
+    <label class="btn btn-secondary text-black btn-rouge rounded mt-1 ">
+      <input type="radio" name="options" id="expired_click" autocomplete="off"> Expirées
+    </label>
+  </div>
+</div>
+
+  <div class="row mt-2">
+    <div class="col-lg-12 mx-auto">
+      <div class="row" id="all">
+      <%
+      if(typeof certifcations != 'undefined'){
+       certifcations.forEach(function(element){%>
+             <%-include('template_cert_employee',{element : element}) -%>
+    <%});}%>
+      </div>
+      <div class="row d-none" id="valid">
+      <%
+      if(typeof certifcations != 'undefined'){
+       certifcations.forEach(function(element){%>
+           <%if(element.niveau == "valid"){%>
+             <%-include('template_cert_employee',{element : element}) -%>
+           <%}%>
+    <%});}%>
+      </div>
+      <div class="row d-none" id="soon">
+      <%
+      if(typeof certifcations != 'undefined'){
+       certifcations.forEach(function(element){%>
+           <%if(element.niveau == "soon"){%>
+             <%-include('template_cert_employee',{element : element}) -%>
+           <%}%>
+    <%});}%>
+      </div>
+
+      <div class="row d-none" id="souplesse">
+      <% if(typeof certifcations != 'undefined'){
+       certifcations.forEach(function(element){%>
+           <%if(element.niveau == "souplesse"){%>
+             <%-include('template_cert_employee',{element : element}) -%>
+           <%}%>
+      <%});}%>
+      </div>
+
+      <div class="row d-none" id="expired">
+      <% if(typeof certifcations != 'undefined'){
+       certifcations.forEach(function(element){%>
+           <%if(element.niveau == "mort"){%>
+             <%-include('template_cert_employee',{element : element}) -%>
+           <%}%>
+        <%});}%>
+      </div>
+    </div>
+  </div>
+  <% if(accessToken){%>
+  <div class="row mx-auto mb-5">
+    <div class="col- mx-auto bouton_connexion mt-5">
+        <a href="/employes"><button class="btn float-right rounded-pill color-black bg-grisCA border-grisCA" type="button">Retour</button></a>
+    </div>
+  </div>
+  <%}%>
+</div>
+
+<script>
+  $(document).on('change', '#all_click', function(){
+    $('#all').removeClass('d-none');
+    if(!$('#valid').hasClass('d-none')){
+      $('#valid').addClass('d-none');
+    }
+    if(!$('#soon').hasClass('d-none')){
+      $('#soon').addClass('d-none');
+    }
+    if(!$('#souplesse').hasClass('d-none')){
+      $('#souplesse').addClass('d-none');
+    }
+    if(!$('#expired').hasClass('d-none')){
+      $('#expired').addClass('d-none');
+    }
+  });
+  $(document).on('change', '#valid_click', function(){
+    $('#valid').removeClass('d-none');
+    if(!$('#all').hasClass('d-none')){
+      $('#all').addClass('d-none');
+    }
+    if(!$('#soon').hasClass('d-none')){
+      $('#soon').addClass('d-none');
+    }
+    if(!$('#souplesse').hasClass('d-none')){
+      $('#souplesse').addClass('d-none');
+    }
+    if(!$('#expired').hasClass('d-none')){
+      $('#expired').addClass('d-none');
+    }
+  });
+  $(document).on('change', '#soon_click', function(){
+    $('#soon').removeClass('d-none');
+    if(!$('#all').hasClass('d-none')){
+      $('#all').addClass('d-none');
+    }
+    if(!$('#valid').hasClass('d-none')){
+      $('#valid').addClass('d-none');
+    }
+    if(!$('#souplesse').hasClass('d-none')){
+      $('#souplesse').addClass('d-none');
+    }
+    if(!$('#expired').hasClass('d-none')){
+      $('#expired').addClass('d-none');
+    }
+  });
+  $(document).on('change', '#souplesse_click', function(){
+    $('#souplesse').removeClass('d-none');
+    if(!$('#all').hasClass('d-none')){
+      $('#all').addClass('d-none');
+    }
+    if(!$('#valid').hasClass('d-none')){
+      $('#valid').addClass('d-none');
+    }
+    if(!$('#soon').hasClass('d-none')){
+      $('#soon').addClass('d-none');
+    }
+    if(!$('#expired').hasClass('d-none')){
+      $('#expired').addClass('d-none');
+    }
+  });
+  $(document).on('change', '#expired_click', function(){
+    $('#expired').removeClass('d-none');
+    if(!$('#all').hasClass('d-none')){
+      $('#all').addClass('d-none');
+    }
+    if(!$('#valid').hasClass('d-none')){
+      $('#valid').addClass('d-none');
+    }
+    if(!$('#soon').hasClass('d-none')){
+      $('#soon').addClass('d-none');
+    }
+    if(!$('#souplesse').hasClass('d-none')){
+      $('#souplesse').addClass('d-none');
+    }
+  });
+</script>
