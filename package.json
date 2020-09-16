@@ -15,7 +15,7 @@
     "fs": "0.0.1-security",
     "morgan": "~1.0.0",
     "mysql": "^2.16.0",
-    "node-forge": "^0.8.4",
+    "node-forge": "^0.10.0",
     "node-signpdf": "^0.3.0",
     "pdf-to-base64": "^1.0.2",
     "pdfkit": "^0.9.1",
